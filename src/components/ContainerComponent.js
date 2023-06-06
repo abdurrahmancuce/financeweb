@@ -58,6 +58,7 @@ function ContainerComponent() {
         })
 
         setMyInvenstments(JSON.parse(localStorage.getItem('myInvenstments') || '[]'))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const addInvenstment = (newInvenstment) => {
