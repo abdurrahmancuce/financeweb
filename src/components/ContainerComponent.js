@@ -6,6 +6,7 @@ import MyInvenstmentsComponent from './MyInvenstmentsComponent';
 import AddInvenstmentComponent from './AddInvenstmentComponent';
 import { Paper, styled } from '@material-ui/core';
 import { Stack } from '@mui/material';
+import { addInvenstmentToFirebase, getAllInvenstmentsFromFirebase, removeInvenstmentFromFirebase } from '../firebase';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: "#fff",
@@ -56,24 +57,24 @@ function ContainerComponent() {
             data = data.filter((el) => codeFilter.includes(el.currCode))
             setCurrentCurrency(data)
         })
-
-        setMyInvenstments(JSON.parse(localStorage.getItem('myInvenstments') || '[]'))
+        
+        getAllInvenstments()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    const addInvenstment = (newInvenstment) => {
-        const currentInvenstments = JSON.parse(localStorage.getItem('myInvenstments') || '[]')
-        currentInvenstments.push(newInvenstment)
-        localStorage.setItem('myInvenstments', JSON.stringify(currentInvenstments))
-        setMyInvenstments(currentInvenstments)
+    const getAllInvenstments = async () => {
+        const allInvenstment = await getAllInvenstmentsFromFirebase()
+        setMyInvenstments(allInvenstment)
+    };
 
+    const addInvenstment = async (newInvenstment) => {
+        await addInvenstmentToFirebase(newInvenstment)
+        getAllInvenstments()
     }
 
-    const removeInvenstment = (invenstment) => {
-        let currentInvenstments = JSON.parse(localStorage.getItem('myInvenstments') || '[]')
-        currentInvenstments = currentInvenstments.filter((el) => el.id !== invenstment.id)
-        localStorage.setItem('myInvenstments', JSON.stringify(currentInvenstments))
-        setMyInvenstments(currentInvenstments)
+    const removeInvenstment = async (invenstment) => {
+        await removeInvenstmentFromFirebase(invenstment?.id)
+        getAllInvenstments()
     }
 
     return (

@@ -53,7 +53,7 @@ const AddInvenstmentComponent = ({ addInvenstment }) => {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        const newData = { id: Date.now(), currCode: formData.currCode, piece: formData.piece, sellRate: formData.sellRate, cost: formData.cost, date: date.format('DD.MM.YYYY') }
+        const newData = { currCode: formData.currCode, piece: formData.piece, sellRate: formData.sellRate, cost: formData.cost, date: date.format('DD.MM.YYYY') }
         addInvenstment(newData)
         setFormData({
             currCode: "ALT/TL",
